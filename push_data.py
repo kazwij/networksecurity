@@ -1,13 +1,13 @@
 import os
 import sys
-import json
+import json 
 
 # get url from .env 
 from dotenv import load_dotenv 
 load_dotenv() #initialize 
 
 MONGO_DB_URL = os.getenv("MONGO_DB_URL")
-print(MONGO_DB_URL) # checking 
+#print(MONGO_DB_URL) # checking 
 
 #to certify secure connection. 
 import certifi

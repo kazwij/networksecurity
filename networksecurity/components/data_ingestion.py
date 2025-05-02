@@ -1,5 +1,6 @@
 from networksecurity.exceptions.exception import NetworkSecurityException
 from networksecurity.logging.logger import logging
+from networksecurity.entity.artifact_entity import DataIngestionArtifact
 
 #configuration of the data Ingestion Config
 
@@ -15,7 +16,7 @@ from sklearn.model_selection import train_test_split
 
 # Read fron mongo db
 
-from dotenv import load_dotenv
+from dotenv import load_dotenv # read from .env file. 
 load_dotenv()
 
 MONGO_DB_URL = os.getenv("MONGO_DB_URL")
@@ -53,7 +54,7 @@ class DataIngestion:
             collection = self.mongo_client[data_base_name][collection_name]
 
             df = pd.DataFrame(list(collection.find()))
-            if "_id" in df.columns.to_list:
+            if "_id" in df.columns.to_list():
                 df = df.drop(columns=['_id'],axis=1)
             
             #replace missing values
@@ -113,5 +114,9 @@ class DataIngestion:
             dataframe  = self.export_collection_as_dataframe() # step 1 get data from mongodb
             dataframe = self.export_data_into_feature_store(dataframe) # step 2 store in feature store
             self.split_data_as_train_test(dataframe)
+            dataingestionartifact = DataIngestionArtifact(train_file_path=self.data_ingestion_config.training_file_path, test_file_path=self.data_ingestion_config.testing_file_path)
+
+            return dataingestionartifact
+        
         except Exception as e:
             raise NetworkSecurityException(e,sys)
