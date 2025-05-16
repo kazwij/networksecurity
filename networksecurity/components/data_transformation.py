@@ -54,7 +54,7 @@ class DataTransformation:
         try:
             imputer:KNNImputer = KNNImputer(**DATA_TRANSFORMATION_IMPUTER_PARAMS)
             logging.info(f"Initialise KNNImputer with {DATA_TRANSFORMATION_IMPUTER_PARAMS}")
-            processor:Pipeline = Pipeline("imputer",imputer)
+            processor:Pipeline = Pipeline([("imputer",imputer)])
             
             return processor
         
@@ -86,7 +86,7 @@ class DataTransformation:
             transformed_input_train_feature = preprocessor_object.transform(input_feature_train_df) # this gives an array
             transaformed_input_test_feature = preprocessor_object.transform(input_feature_test_df)
             
-            train_arr = np.c_[transformed_input_train_feature,np.arry(target_feature_train_df)] #combine .c_ by converting target_feature_train_df
+            train_arr = np.c_[transformed_input_train_feature,np.array(target_feature_train_df)] #combine .c_ by converting target_feature_train_df
             test_arr = np.c_[transaformed_input_test_feature,np.array(target_feature_test_df)]
             
             #save numpy array data
@@ -104,7 +104,7 @@ class DataTransformation:
                 
             )
             
-         
+            return data_transformation_artifcat
             
         except Exception as e:
             raise NetworkSecurityException(e,sys)
