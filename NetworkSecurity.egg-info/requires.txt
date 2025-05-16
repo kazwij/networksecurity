@@ -1,7 +1,0 @@
-python-dotenv
-pandas
-seaborn
-numpy
-certifi
-pymongo
-pymongo[srv]==3.12
